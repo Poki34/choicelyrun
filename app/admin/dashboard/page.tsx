@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Video, Eye, Users, MessageSquare, TrendingUp, Clock } from 'lucide-react';
+import { Video, Users, MessageSquare, TrendingUp, Clock } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import styles from './dashboard.module.css';
 

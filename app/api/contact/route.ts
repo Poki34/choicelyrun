@@ -15,10 +15,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 
-    // Rate limiting by IP (simple in-memory, per-instance)
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
-    const rateKey = `contact_${ip}`;
-    
     // Save to Supabase
     const supabase = getServiceSupabase();
     const { error } = await supabase

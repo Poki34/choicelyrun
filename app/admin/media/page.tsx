@@ -67,7 +67,7 @@ export default function AdminMedia() {
       {loading ? <p style={{ color: 'var(--text-secondary)' }}>Loading...</p> :
       files.length === 0 ? (
         <div className="glass-card" style={{ padding: 60, textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <Image size={48} style={{ marginBottom: 16, opacity: 0.3 }} />
+          <Image size={48} style={{ marginBottom: 16, opacity: 0.3 }} aria-hidden="true" />
           <p>No media files yet. Upload images to get started.</p>
         </div>
       ) : (

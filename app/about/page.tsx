@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Globe, Users, Video, Eye } from 'lucide-react';
 import { YoutubeIcon, InstagramIcon, TikTokIcon } from '@/components/ui/SocialIcons';
 import styles from './about.module.css';
 

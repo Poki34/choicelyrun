@@ -31,6 +31,7 @@ export default function AdminSettings() {
       }
     }
     loadSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function saveSettings() {

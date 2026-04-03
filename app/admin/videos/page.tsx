@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Plus, Trash2, Eye, EyeOff, Edit, ExternalLink } from 'lucide-react';
+import { Plus, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react';
 
 interface VideoItem {
   id: string;

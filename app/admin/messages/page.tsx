@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Mail, Trash2, Check, Clock } from 'lucide-react';
+import { Mail, Trash2 } from 'lucide-react';
 
 interface Message { id: string; name: string; email: string; subject: string; message: string; is_read: boolean; created_at: string; }
 

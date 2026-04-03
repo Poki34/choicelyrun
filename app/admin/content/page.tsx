@@ -15,7 +15,6 @@ const contentKeys = [
 
 export default function AdminContent() {
   const [content, setContent] = useState<ContentItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState('');
 
   useEffect(() => { fetchData(); }, []);
@@ -23,7 +22,6 @@ export default function AdminContent() {
   async function fetchData() {
     const { data } = await supabase.from('site_content').select('*').eq('lang', 'en');
     setContent(data || []);
-    setLoading(false);
   }
 
   function getValue(key: string): string {
