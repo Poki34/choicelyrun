@@ -1,0 +1,142 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.header.scrolled {
+  background: rgba(13, 11, 30, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(180, 127, 255, 0.1);
+  padding: 10px 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  z-index: 10;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--piko-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: white;
+  box-shadow: 0 4px 15px rgba(107, 15, 212, 0.4);
+}
+
+.logoText {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navLink {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+  background: rgba(123, 79, 212, 0.1);
+}
+
+.navLink.active {
+  color: var(--accent-light);
+  background: rgba(123, 79, 212, 0.15);
+}
+
+.subscribeBtn {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  z-index: 10;
+}
+
+.mobileNav {
+  display: none;
+  flex-direction: column;
+  padding: 20px 24px;
+  background: rgba(13, 11, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.mobileLink {
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.mobileLink:hover,
+.mobileLink.active {
+  color: var(--accent-light);
+  background: rgba(123, 79, 212, 0.1);
+}
+
+.mobileSubscribe {
+  margin-top: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .desktopNav,
+  .subscribeBtn {
+    display: none;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
+
+  .mobileNav {
+    display: flex;
+  }
+}

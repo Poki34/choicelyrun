@@ -1,0 +1,129 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar {
+  width: 260px;
+  background: rgba(17, 15, 36, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.sidebarTop {
+  margin-bottom: 28px;
+}
+
+.sidebarLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--piko-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+}
+
+.sidebarLogo span {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: var(--accent-light);
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.navItem:hover {
+  background: rgba(123, 79, 212, 0.1);
+  color: var(--text-primary);
+}
+
+.activeNav {
+  background: rgba(123, 79, 212, 0.15);
+  color: var(--accent-light);
+  border-left: 3px solid var(--accent-purple);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--error);
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: rgba(229, 57, 53, 0.08);
+  border: 1px solid rgba(229, 57, 53, 0.15);
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.logoutBtn:hover {
+  background: rgba(229, 57, 53, 0.15);
+}
+
+.adminMain {
+  flex: 1;
+  margin-left: 260px;
+  padding: 32px;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 220px; }
+  .adminMain { margin-left: 220px; padding: 20px; }
+}

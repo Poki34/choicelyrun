@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Colors */
+  --primary-dark: #0D0B1E;
+  --primary-dark-2: #110F24;
+  --primary-purple: #2B2B6B;
+  --accent-purple: #7B4FD4;
+  --accent-light: #B47FFF;
+  --piko-purple: #6B0FD4;
+  --text-primary: #FFFFFF;
+  --text-secondary: #AAAACC;
+  --card-bg: #1A1830;
+  --card-bg-hover: #221F3D;
+  --success: #4CAF50;
+  --error: #E53935;
+  --youtube-red: #FF0000;
+  --border-color: rgba(123, 79, 212, 0.2);
+  --glass-bg: rgba(26, 24, 48, 0.6);
+  --glass-border: rgba(180, 127, 255, 0.15);
+
+  /* Typography */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --container-max: 1200px;
+  --header-height: 72px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--primary-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Background gradient */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(107, 15, 212, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(123, 79, 212, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(43, 43, 107, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2.25rem; color: var(--accent-light); }
+h3 { font-size: 1.5rem; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* Container */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  transition: all var(--transition-normal);
+}
+
+.glass-card:hover {
+  border-color: rgba(180, 127, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(107, 15, 212, 0.15);
+}
+
+/* Section */
+.section {
+  padding: 80px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-title h2 {
+  margin-bottom: 12px;
+}
+
+.section-title p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Button Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: all var(--transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-purple), var(--piko-purple));
+  color: white;
+  box-shadow: 0 4px 20px rgba(123, 79, 212, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(123, 79, 212, 0.4);
+}
+
+.btn-subscribe {
+  background: var(--youtube-red);
+  color: white;
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.25);
+}
+
+.btn-subscribe:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 0, 0, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent-light);
+  border: 2px solid var(--accent-purple);
+}
+
+.btn-outline:hover {
+  background: var(--accent-purple);
+  color: white;
+}
+
+/* Grid Layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(107, 15, 212, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(107, 15, 212, 0.6); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-glow { animation: glow 3s ease-in-out infinite; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--primary-dark); }
+::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-light); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-6 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+  .section { padding: 60px 0; }
+  .grid-2, .grid-3, .grid-4, .grid-6 { grid-template-columns: 1fr; }
+  .container { padding: 0 16px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.75rem; }
+  .btn { padding: 10px 20px; font-size: 0.85rem; }
+}

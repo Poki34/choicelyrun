@@ -1,0 +1,126 @@
+.characters {
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.card {
+  padding: 36px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mainCard {
+  border-color: rgba(107, 15, 212, 0.35);
+  box-shadow: 0 0 40px rgba(107, 15, 212, 0.1);
+}
+
+.mainBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(107, 15, 212, 0.2);
+  border: 1px solid rgba(107, 15, 212, 0.3);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.avatarWrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--char-color) 30%, var(--primary-dark)), var(--char-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid color-mix(in srgb, var(--char-color) 50%, transparent);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .avatar {
+  transform: scale(1.08) rotate(5deg);
+}
+
+.avatarEmoji {
+  font-size: 2.8rem;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+
+.avatarGlow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--char-color) 15%, transparent) 0%, transparent 70%);
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .avatarGlow {
+  opacity: 1.5;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.role {
+  color: var(--char-color);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bio {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.trait {
+  background: rgba(123, 79, 212, 0.1);
+  border: 1px solid rgba(123, 79, 212, 0.2);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--accent-light);
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .card { padding: 28px 24px; }
+}
