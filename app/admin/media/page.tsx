@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Upload, Trash2, Copy, Image } from 'lucide-react';
 
-interface MediaFile { name: string; id: string; created_at: string; metadata: any; }
+interface MediaFile { name: string; }
 
 export default function AdminMedia() {
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -16,7 +16,7 @@ export default function AdminMedia() {
 
   async function fetchFiles() {
     const { data } = await supabase.storage.from('media').list('', { sortBy: { column: 'created_at', order: 'desc' } });
-    setFiles(data || []);
+    setFiles((data || []).map(f => ({ name: f.name })));
     setLoading(false);
   }
 
@@ -75,6 +75,7 @@ export default function AdminMedia() {
           {files.map((f) => (
             <div key={f.name} className="glass-card" style={{ overflow: 'hidden' }}>
               <div style={{ aspectRatio: '1', background: 'var(--card-bg)', position: 'relative' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={getPublicUrl(f.name)} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div style={{ padding: '10px 12px' }}>

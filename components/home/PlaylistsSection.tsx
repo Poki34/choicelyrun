@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ExternalLink, ListVideo } from 'lucide-react';
 import styles from './PlaylistsSection.module.css';
 
@@ -61,7 +62,7 @@ export default function PlaylistsSection({ playlists }: PlaylistsSectionProps) {
             >
               <div className={styles.thumbnailWrap}>
                 {pl.thumbnailUrl ? (
-                  <img src={pl.thumbnailUrl} alt={pl.title} className={styles.thumbnail} />
+                  <Image src={pl.thumbnailUrl} alt={pl.title} className={styles.thumbnail} width={400} height={225} />
                 ) : (
                   <div className={styles.thumbnailPlaceholder}>
                     <ListVideo size={36} />

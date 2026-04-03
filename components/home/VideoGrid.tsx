@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ExternalLink, Eye, Calendar } from 'lucide-react';
 import styles from './VideoGrid.module.css';
 
@@ -81,7 +82,7 @@ export default function VideoGrid({ videos }: VideoGridProps) {
             >
               <div className={styles.thumbnailWrap}>
                 {video.thumbnailUrl ? (
-                  <img src={video.thumbnailUrl} alt={video.title} className={styles.thumbnail} />
+                  <Image src={video.thumbnailUrl} alt={video.title} className={styles.thumbnail} width={480} height={270} />
                 ) : (
                   <div className={styles.thumbnailPlaceholder}>
                     <span>▶</span>

@@ -22,6 +22,25 @@ interface YouTubePlaylist {
   videoCount: number;
 }
 
+interface YouTubeSearchItem {
+  id: { videoId: string };
+  snippet: {
+    title: string;
+    description: string;
+    thumbnails: { high?: { url: string }; default?: { url: string } };
+    publishedAt: string;
+  };
+}
+
+interface YouTubePlaylistItem {
+  id: string;
+  snippet: {
+    title: string;
+    thumbnails: { high?: { url: string }; default?: { url: string } };
+  };
+  contentDetails: { itemCount: number };
+}
+
 export async function getChannelStats(): Promise<YouTubeChannelStats | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   const channelId = process.env.YOUTUBE_CHANNEL_ID;
@@ -64,7 +83,7 @@ export async function getLatestVideos(maxResults = 6): Promise<YouTubeVideo[]> {
     
     if (!searchData.items) return [];
     
-    const videoIds = searchData.items.map((item: any) => item.id.videoId).join(',');
+    const videoIds = searchData.items.map((item: YouTubeSearchItem) => item.id.videoId).join(',');
     
     const statsRes = await fetch(
       `${YOUTUBE_API_BASE}/videos?part=statistics&id=${videoIds}&key=${apiKey}`,
@@ -72,7 +91,7 @@ export async function getLatestVideos(maxResults = 6): Promise<YouTubeVideo[]> {
     );
     const statsData = await statsRes.json();
     
-    return searchData.items.map((item: any, index: number) => ({
+    return searchData.items.map((item: YouTubeSearchItem, index: number) => ({
       id: item.id.videoId,
       title: item.snippet.title,
       description: item.snippet.description,
@@ -100,7 +119,7 @@ export async function getPlaylists(maxResults = 6): Promise<YouTubePlaylist[]> {
     
     if (!data.items) return [];
     
-    return data.items.map((item: any) => ({
+    return data.items.map((item: YouTubePlaylistItem) => ({
       id: item.id,
       title: item.snippet.title,
       thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default?.url,

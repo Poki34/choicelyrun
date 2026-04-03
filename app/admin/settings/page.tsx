@@ -25,8 +25,8 @@ export default function AdminSettings() {
     async function loadSettings() {
       const { data } = await supabase.from('site_content').select('*').eq('lang', 'settings');
       if (data) {
-        const s: any = { ...settings };
-        data.forEach(item => { if (item.key in s) s[item.key] = item.value; });
+        const s = { ...settings };
+        data.forEach(item => { if (item.key in s) (s as Record<string, string | boolean>)[item.key] = item.value; });
         setSettings(s);
       }
     }

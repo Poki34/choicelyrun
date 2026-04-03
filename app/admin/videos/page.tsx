@@ -122,6 +122,7 @@ export default function AdminVideos() {
           videos.map((v) => (
             <div key={v.id} className="glass-card" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 16 }}>
               <div style={{ width: 60, height: 60, borderRadius: 8, overflow: 'hidden', background: 'var(--card-bg)', flexShrink: 0 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 {v.thumbnail_url && <img src={v.thumbnail_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               </div>
               <div style={{ flex: 1 }}>
