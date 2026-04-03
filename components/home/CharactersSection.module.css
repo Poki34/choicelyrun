@@ -65,6 +65,13 @@
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
 }
 
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .avatarGlow {
   position: absolute;
   inset: -20px;

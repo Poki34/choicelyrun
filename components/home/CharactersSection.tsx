@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import styles from './CharactersSection.module.css';
 
 const characters = [
   {
     name: 'PIKO',
     emoji: '👾',
+    image: '/images/piko.png',
     role: 'Master of Chaos',
     bio: 'The main character of ChoicelyRun. PIKO never plays by the rules. Every episode is a new adventure in chaos, mischief, and unpredictable fun.',
     traits: ['Chaos Master', 'No Mercy', 'Unpredictable', 'Fearless'],
@@ -69,7 +71,11 @@ export default function CharactersSection() {
               {char.isMain && <div className={styles.mainBadge}>⭐ Main Character</div>}
               <div className={styles.avatarWrap}>
                 <div className={styles.avatar}>
-                  <span className={styles.avatarEmoji}>{char.emoji}</span>
+                  {char.image ? (
+                    <Image src={char.image} alt={char.name} width={120} height={120} className={styles.avatarImage} />
+                  ) : (
+                    <span className={styles.avatarEmoji}>{char.emoji}</span>
+                  )}
                 </div>
                 <div className={styles.avatarGlow} />
               </div>

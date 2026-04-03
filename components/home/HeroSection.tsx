@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Play, Users, Eye, Video } from 'lucide-react';
 import styles from './HeroSection.module.css';
 
@@ -80,7 +81,7 @@ export default function HeroSection({ stats }: HeroProps) {
           <div className={styles.pikoContainer}>
             <div className={styles.pikoGlow} />
             <div className={styles.pikoCharacter}>
-              <div className={styles.pikoEmoji}>👾</div>
+              <Image src="/images/piko.png" alt="PIKO - Master of Chaos" width={320} height={320} className={styles.pikoImage} priority />
             </div>
             <div className={styles.floatingParticles}>
               <span>✨</span>

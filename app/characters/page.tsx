@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import styles from './characters.module.css';
 
 const characters = [
   {
     name: 'PIKO',
     emoji: '👾',
+    image: '/images/piko.png',
     role: 'Master of Chaos',
     fullBio: `PIKO is the heart and soul of ChoicelyRun. A mysterious creature who thrives on chaos and 
     unpredictability, PIKO turns every moment into an adventure. No one knows where PIKO came from, 
@@ -85,7 +87,11 @@ export default function CharactersPage() {
               <div className={styles.charVisual}>
                 <div className={styles.charGlow} />
                 <div className={styles.charAvatar}>
-                  <span>{char.emoji}</span>
+                  {char.image ? (
+                    <Image src={char.image} alt={char.name} width={180} height={180} className={styles.charAvatarImage} />
+                  ) : (
+                    <span>{char.emoji}</span>
+                  )}
                 </div>
                 {char.isMain && (
                   <div className={styles.mainRibbon}>⭐ Main Character</div>
