@@ -83,6 +83,7 @@ export default function HeroSection({ stats }: HeroProps) {
             <div className={styles.pikoCharacter}>
               <Image src="/images/piko.png" alt="PIKO - Master of Chaos" width={320} height={320} className={styles.pikoImage} priority />
             </div>
+            <div className={styles.pikoShadow} />
             <div className={styles.floatingParticles}>
               <span>✨</span>
               <span>⚡</span>
