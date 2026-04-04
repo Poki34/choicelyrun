@@ -33,15 +33,17 @@ function formatViews(count?: string): string {
   return num + ' views';
 }
 
-// Placeholder videos for when YouTube API is not connected
-const placeholderVideos: Video[] = [
-  { id: '1', title: 'PIKO vs The World! 🌍 Epic Chaos', thumbnailUrl: '', viewCount: '2500000', publishedAt: '2026-03-28T00:00:00Z' },
-  { id: '2', title: 'Nova Catches PIKO Red-Handed! 🐰👮', thumbnailUrl: '', viewCount: '1800000', publishedAt: '2026-03-25T00:00:00Z' },
-  { id: '3', title: 'Finn\'s Biggest Prank Yet! 🦊💥', thumbnailUrl: '', viewCount: '3200000', publishedAt: '2026-03-22T00:00:00Z' },
-  { id: '4', title: 'PIKO Goes to School?! 📚😈', thumbnailUrl: '', viewCount: '950000', publishedAt: '2026-03-20T00:00:00Z' },
-  { id: '5', title: 'The Chase Begins! PIKO on the Run 🏃‍♂️', thumbnailUrl: '', viewCount: '4100000', publishedAt: '2026-03-17T00:00:00Z' },
-  { id: '6', title: 'Nova & Finn Team Up! 💪✨', thumbnailUrl: '', viewCount: '1500000', publishedAt: '2026-03-15T00:00:00Z' },
-];
+// YouTube API returns HTML entities — decode them
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#x27;/g, "'");
+}
 
 const containerVariants = {
   hidden: {},
@@ -54,7 +56,8 @@ const itemVariants = {
 };
 
 export default function VideoGrid({ videos }: VideoGridProps) {
-  const displayVideos = videos.length > 0 ? videos : placeholderVideos;
+  // Video yoksa bölümü gösterme
+  if (!videos || videos.length === 0) return null;
 
   return (
     <section className={`section ${styles.videosSection}`}>
@@ -71,7 +74,7 @@ export default function VideoGrid({ videos }: VideoGridProps) {
           whileInView="show"
           viewport={{ once: true, margin: '-50px' }}
         >
-          {displayVideos.map((video) => (
+          {videos.map((video) => (
             <motion.a
               key={video.id}
               href={`https://www.youtube.com/watch?v=${video.id}`}
@@ -82,7 +85,7 @@ export default function VideoGrid({ videos }: VideoGridProps) {
             >
               <div className={styles.thumbnailWrap}>
                 {video.thumbnailUrl ? (
-                  <Image src={video.thumbnailUrl} alt={video.title} className={styles.thumbnail} width={480} height={270} />
+                  <Image src={video.thumbnailUrl} alt={decodeHtmlEntities(video.title)} className={styles.thumbnail} width={480} height={270} />
                 ) : (
                   <div className={styles.thumbnailPlaceholder}>
                     <span>▶</span>
@@ -93,7 +96,7 @@ export default function VideoGrid({ videos }: VideoGridProps) {
                 </div>
               </div>
               <div className={styles.videoInfo}>
-                <h3 className={styles.videoTitle}>{video.title}</h3>
+                <h3 className={styles.videoTitle}>{decodeHtmlEntities(video.title)}</h3>
                 <div className={styles.videoMeta}>
                   {video.viewCount && (
                     <span className={styles.metaItem}>
