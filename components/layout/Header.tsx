@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { YoutubeIcon } from '@/components/ui/SocialIcons';
+import { useSiteSettings } from '@/lib/SiteSettingsContext';
 import styles from './Header.module.css';
 
 const navLinks = [
@@ -20,6 +21,9 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
+  const settings = useSiteSettings();
+
+  const subscribeUrl = `${settings.youtube_url}?sub_confirmation=1`;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -36,7 +40,7 @@ export default function Header() {
       <div className={`container ${styles.headerInner}`}>
         <Link href="/" className={styles.logo}>
           <div className={styles.logoIcon}>P</div>
-          <span className={styles.logoText}>ChoicelyRun</span>
+          <span className={styles.logoText}>{settings.site_title}</span>
         </Link>
 
         <nav className={styles.desktopNav}>
@@ -52,7 +56,7 @@ export default function Header() {
         </nav>
 
         <a
-          href="https://www.youtube.com/@ChoicelyRun?sub_confirmation=1"
+          href={subscribeUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={`btn btn-subscribe ${styles.subscribeBtn}`}
@@ -89,7 +93,7 @@ export default function Header() {
               </Link>
             ))}
             <a
-              href="https://www.youtube.com/@ChoicelyRun?sub_confirmation=1"
+              href={subscribeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className={`btn btn-subscribe ${styles.mobileSubscribe}`}

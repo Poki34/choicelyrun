@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import { YoutubeIcon, InstagramIcon, TikTokIcon } from '@/components/ui/SocialIcons';
+import { useSiteSettings } from '@/lib/SiteSettingsContext';
 import styles from './contact.module.css';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const settings = useSiteSettings();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,20 +143,20 @@ export default function ContactPage() {
             <div className={`glass-card ${styles.infoCard}`}>
               <Mail size={24} className={styles.infoIcon} />
               <h3>Email Us</h3>
-              <a href="mailto:support@choicelyrun.com">support@choicelyrun.com</a>
+              <a href={`mailto:${settings.contact_email}`}>{settings.contact_email}</a>
             </div>
 
             <div className={`glass-card ${styles.infoCard}`}>
               <h3>Follow Us</h3>
               <p>Reach out on any of our social channels</p>
               <div className={styles.socials}>
-                <a href="https://www.youtube.com/@ChoicelyRun" target="_blank" rel="noopener noreferrer">
+                <a href={settings.youtube_url} target="_blank" rel="noopener noreferrer">
                   <YoutubeIcon size={22} /> YouTube
                 </a>
-                <a href="https://instagram.com/choicelyrun" target="_blank" rel="noopener noreferrer">
+                <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer">
                   <InstagramIcon size={22} /> Instagram
                 </a>
-                <a href="https://www.tiktok.com/@choicelyrun" target="_blank" rel="noopener noreferrer">
+                <a href={settings.tiktok_url} target="_blank" rel="noopener noreferrer">
                   <TikTokIcon size={22} /> TikTok
                 </a>
               </div>

@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { SiteSettingsProvider } from '@/lib/SiteSettingsContext';
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -14,12 +15,12 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <>
+    <SiteSettingsProvider>
       <Header />
       <main style={{ paddingTop: 'var(--header-height)' }}>
         {children}
       </main>
       <Footer />
-    </>
+    </SiteSettingsProvider>
   );
 }
