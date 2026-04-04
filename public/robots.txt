@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /gizli-admin-login
+Disallow: /api/
+
+Sitemap: https://choicelyrun.com/sitemap.xml

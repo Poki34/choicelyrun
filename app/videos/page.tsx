@@ -1,51 +1,71 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, ExternalLink, Eye, Calendar, ListVideo } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 import styles from './videos.module.css';
 
 type TabType = 'shorts' | 'playlists';
-type CategoryType = 'all' | 'piko-chaos' | 'nova-finn' | 'special';
 
-const placeholderShorts = [
-  { id: '1', title: 'PIKO vs The World! 🌍 Epic Chaos', viewCount: '2.5M', date: 'Mar 28, 2026', category: 'piko-chaos' },
-  { id: '2', title: 'Nova Catches PIKO Red-Handed! 🐰👮', viewCount: '1.8M', date: 'Mar 25, 2026', category: 'nova-finn' },
-  { id: '3', title: "Finn's Biggest Prank Yet! 🦊💥", viewCount: '3.2M', date: 'Mar 22, 2026', category: 'nova-finn' },
-  { id: '4', title: 'PIKO Goes to School?! 📚😈', viewCount: '950K', date: 'Mar 20, 2026', category: 'piko-chaos' },
-  { id: '5', title: 'The Chase Begins! PIKO on the Run 🏃‍♂️', viewCount: '4.1M', date: 'Mar 17, 2026', category: 'piko-chaos' },
-  { id: '6', title: 'Nova & Finn Team Up! 💪✨', viewCount: '1.5M', date: 'Mar 15, 2026', category: 'nova-finn' },
-  { id: '7', title: 'Special Episode: The Origin! 🌟', viewCount: '5.8M', date: 'Mar 10, 2026', category: 'special' },
-  { id: '8', title: "PIKO's Kitchen Disaster 🍳🔥", viewCount: '2.1M', date: 'Mar 8, 2026', category: 'piko-chaos' },
-  { id: '9', title: 'Finn Saves the Day! 🦊🦸‍♂️', viewCount: '1.3M', date: 'Mar 5, 2026', category: 'nova-finn' },
-];
+interface VideoItem {
+  id: string;
+  youtube_id: string;
+  title: string;
+  thumbnail_url: string;
+  category: string;
+  is_visible: boolean;
+  view_count: number;
+  created_at: string;
+}
 
-const placeholderPlaylists = [
-  { id: '1', title: 'PIKO Chaos Collection 😈🔥', videoCount: 45 },
-  { id: '2', title: 'Nova & Finn Adventures 🐰🦊', videoCount: 32 },
-  { id: '3', title: 'Special Episodes ✨💎', videoCount: 18 },
-  { id: '4', title: 'Best of ChoicelyRun 🏆', videoCount: 67 },
-  { id: '5', title: "PIKO's Greatest Escapes 🏃‍♂️💨", videoCount: 24 },
-  { id: '6', title: 'Fan Favorites ❤️', videoCount: 41 },
-];
+interface PlaylistItem {
+  id: string;
+  youtube_playlist_id: string;
+  title: string;
+  thumbnail_url: string;
+  video_count: number;
+}
 
 const categories = [
   { value: 'all', label: 'All' },
-  { value: 'piko-chaos', label: 'PIKO Chaos' },
-  { value: 'nova-finn', label: 'Nova & Finn' },
-  { value: 'special', label: 'Special Episodes' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'playlist', label: 'Playlist' },
+  { value: 'special', label: 'Special' },
 ];
 
 export default function VideosPage() {
   const [tab, setTab] = useState<TabType>('shorts');
-  const [category, setCategory] = useState<CategoryType>('all');
+  const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [playlists, setPlaylists] = useState<PlaylistItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredShorts = placeholderShorts.filter((v) => {
+  useEffect(() => {
+    async function fetchData() {
+      const [videosRes, playlistsRes] = await Promise.all([
+        supabase.from('videos').select('*').eq('is_visible', true).order('sort_order'),
+        supabase.from('playlists').select('*').order('sort_order'),
+      ]);
+      setVideos(videosRes.data || []);
+      setPlaylists(playlistsRes.data || []);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  const filteredVideos = videos.filter((v) => {
     const matchCategory = category === 'all' || v.category === category;
     const matchSearch = !search || v.title.toLowerCase().includes(search.toLowerCase());
     return matchCategory && matchSearch;
   });
+
+  function formatCount(count: number): string {
+    if (count >= 1000000) return (count / 1000000).toFixed(1) + 'M';
+    if (count >= 1000) return (count / 1000).toFixed(1) + 'K';
+    return count.toString();
+  }
 
   return (
     <div className={styles.videosPage}>
@@ -94,7 +114,7 @@ export default function VideosPage() {
                   <button
                     key={cat.value}
                     className={`${styles.catBtn} ${category === cat.value ? styles.activeCat : ''}`}
-                    onClick={() => setCategory(cat.value as CategoryType)}
+                    onClick={() => setCategory(cat.value)}
                   >
                     {cat.label}
                   </button>
@@ -102,71 +122,107 @@ export default function VideosPage() {
               </div>
             </div>
 
-            <motion.div
-              className={styles.shortsGrid}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              {filteredShorts.map((video, i) => (
-                <motion.a
-                  key={video.id}
-                  href={`https://www.youtube.com/watch?v=${video.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`glass-card ${styles.videoCard}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <div className={styles.thumbWrap}>
-                    <div className={styles.thumbPlaceholder}>▶</div>
-                    <div className={styles.playHover}>
-                      <div className={styles.playCircle}>▶</div>
-                    </div>
+            {loading ? (
+              <div className={styles.loadingGrid}>
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className={`glass-card ${styles.skeletonCard}`}>
+                    <div className={styles.skeletonThumb} />
+                    <div className={styles.skeletonText} />
+                    <div className={styles.skeletonMeta} />
                   </div>
-                  <div className={styles.videoInfo}>
-                    <h3>{video.title}</h3>
-                    <div className={styles.meta}>
-                      <span><Eye size={13} /> {video.viewCount}</span>
-                      <span><Calendar size={13} /> {video.date}</span>
+                ))}
+              </div>
+            ) : filteredVideos.length === 0 ? (
+              <div className={styles.emptyState}>
+                <p>🎬 No videos found. Check back soon!</p>
+              </div>
+            ) : (
+              <motion.div
+                className={styles.shortsGrid}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                {filteredVideos.map((video, i) => (
+                  <motion.a
+                    key={video.id}
+                    href={`https://www.youtube.com/watch?v=${video.youtube_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`glass-card ${styles.videoCard}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    <div className={styles.thumbWrap}>
+                      {video.thumbnail_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={video.thumbnail_url} alt={video.title} className={styles.thumbImg} />
+                      ) : (
+                        <div className={styles.thumbPlaceholder}>▶</div>
+                      )}
+                      <div className={styles.playHover}>
+                        <div className={styles.playCircle}>▶</div>
+                      </div>
                     </div>
-                  </div>
-                </motion.a>
-              ))}
-            </motion.div>
+                    <div className={styles.videoInfo}>
+                      <h3>{video.title}</h3>
+                      <div className={styles.meta}>
+                        <span><Eye size={13} /> {formatCount(video.view_count || 0)}</span>
+                        <span><Calendar size={13} /> {new Date(video.created_at).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </motion.a>
+                ))}
+              </motion.div>
+            )}
           </>
         )}
 
         {tab === 'playlists' && (
-          <motion.div
-            className={styles.playlistGrid}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            {placeholderPlaylists.map((pl, i) => (
-              <motion.a
-                key={pl.id}
-                href={`https://www.youtube.com/playlist?list=${pl.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`glass-card ${styles.playlistCard}`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.08 }}
-              >
-                <div className={styles.plThumb}>
-                  <ListVideo size={32} />
+          loading ? (
+            <div className={styles.loadingGrid}>
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className={`glass-card ${styles.skeletonCard}`}>
+                  <div className={styles.skeletonThumb} />
+                  <div className={styles.skeletonText} />
                 </div>
-                <div className={styles.plInfo}>
-                  <h3>{pl.title}</h3>
-                  <span>{pl.videoCount} Videos</span>
-                </div>
-                <ExternalLink size={16} className={styles.plArrow} />
-              </motion.a>
-            ))}
-          </motion.div>
+              ))}
+            </div>
+          ) : playlists.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>📋 No playlists yet. Check back soon!</p>
+            </div>
+          ) : (
+            <motion.div
+              className={styles.playlistGrid}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              {playlists.map((pl, i) => (
+                <motion.a
+                  key={pl.id}
+                  href={`https://www.youtube.com/playlist?list=${pl.youtube_playlist_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`glass-card ${styles.playlistCard}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.08 }}
+                >
+                  <div className={styles.plThumb}>
+                    <ListVideo size={32} />
+                  </div>
+                  <div className={styles.plInfo}>
+                    <h3>{pl.title}</h3>
+                    <span>{pl.video_count} Videos</span>
+                  </div>
+                  <ExternalLink size={16} className={styles.plArrow} />
+                </motion.a>
+              ))}
+            </motion.div>
+          )
         )}
       </div>
     </div>

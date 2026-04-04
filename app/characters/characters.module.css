@@ -161,3 +161,24 @@
 @media (max-width: 768px) {
   .charSection { padding: 28px 20px; gap: 28px; }
 }
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.skeletonChar {
+  height: 300px;
+  border-radius: 24px;
+  background: linear-gradient(110deg, rgba(123,79,212,0.06) 8%, rgba(123,79,212,0.12) 18%, rgba(123,79,212,0.06) 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border: 1px solid var(--glass-border);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
