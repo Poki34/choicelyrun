@@ -16,13 +16,6 @@ interface PlaylistsSectionProps {
   playlists: Playlist[];
 }
 
-const placeholderPlaylists: Playlist[] = [
-  { id: '1', title: 'PIKO Chaos Collection 😈🔥', thumbnailUrl: '', videoCount: 45 },
-  { id: '2', title: 'Nova & Finn Adventures 🐰🦊', thumbnailUrl: '', videoCount: 32 },
-  { id: '3', title: 'Special Episodes ✨💎', thumbnailUrl: '', videoCount: 18 },
-  { id: '4', title: 'Best of ChoicelyRun 🏆', thumbnailUrl: '', videoCount: 67 },
-];
-
 const containerVariants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
@@ -34,7 +27,8 @@ const itemVariants = {
 };
 
 export default function PlaylistsSection({ playlists }: PlaylistsSectionProps) {
-  const displayPlaylists = playlists.length > 0 ? playlists : placeholderPlaylists;
+  // Playlist yoksa bölümü gösterme
+  if (!playlists || playlists.length === 0) return null;
 
   return (
     <section className={`section ${styles.playlists}`}>
@@ -51,7 +45,7 @@ export default function PlaylistsSection({ playlists }: PlaylistsSectionProps) {
           whileInView="show"
           viewport={{ once: true, margin: '-50px' }}
         >
-          {displayPlaylists.map((pl) => (
+          {playlists.map((pl) => (
             <motion.a
               key={pl.id}
               href={`https://www.youtube.com/playlist?list=${pl.id}`}

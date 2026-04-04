@@ -18,6 +18,7 @@ const characters = [
   {
     name: 'Nova',
     emoji: '🐰',
+    image: '/images/nova.png',
     role: 'The Law Keeper',
     bio: 'A bunny girl who serves as the police force of this chaotic world. Nova is always one step behind PIKO, trying to maintain order.',
     traits: ['Justice Seeker', 'Brave', 'Quick Thinker', 'Loyal'],
@@ -27,6 +28,7 @@ const characters = [
   {
     name: 'Finn',
     emoji: '🦊',
+    image: '/images/finn.png',
     role: 'The Trickster',
     bio: 'A sly fox who sometimes helps PIKO, sometimes works against him. You never know whose side Finn is really on.',
     traits: ['Cunning', 'Charming', 'Sneaky', 'Witty'],

@@ -24,9 +24,18 @@ export default function AdminSettings() {
   useEffect(() => {
     async function loadSettings() {
       const { data } = await supabase.from('site_content').select('*').eq('lang', 'settings');
-      if (data) {
+      if (data && data.length > 0) {
         const s = { ...settings };
-        data.forEach(item => { if (item.key in s) (s as Record<string, string | boolean>)[item.key] = item.value; });
+        data.forEach(item => {
+          if (item.key in s) {
+            // Boolean değerleri doğru parse et
+            if (item.key === 'maintenance_mode') {
+              (s as Record<string, string | boolean>)[item.key] = item.value === 'true';
+            } else {
+              (s as Record<string, string | boolean>)[item.key] = item.value;
+            }
+          }
+        });
         setSettings(s);
       }
     }
@@ -107,10 +116,15 @@ export default function AdminSettings() {
         <div className="glass-card" style={{ padding: 24 }}>
           <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}><AlertTriangle size={18} /> Maintenance</h3>
           <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-            <input type="checkbox" checked={settings.maintenance_mode as boolean} onChange={(e) => setSettings({ ...settings, maintenance_mode: e.target.checked })}
+            <input type="checkbox" checked={settings.maintenance_mode === true} onChange={(e) => setSettings({ ...settings, maintenance_mode: e.target.checked })}
               style={{ width: 18, height: 18, accentColor: 'var(--accent-purple)' }} />
             <span style={{ fontSize: '0.9rem' }}>Enable maintenance mode</span>
           </label>
+          {settings.maintenance_mode && (
+            <p style={{ fontSize: '0.8rem', color: 'var(--error)', marginTop: 8 }}>
+              ⚠️ Bakım modu aktif — site ziyaretçilere bakım sayfası gösterecek!
+            </p>
+          )}
         </div>
 
         <button className="btn btn-primary" onClick={saveSettings} disabled={saving} style={{ alignSelf: 'flex-start' }}>
