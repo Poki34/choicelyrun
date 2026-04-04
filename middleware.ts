@@ -32,17 +32,17 @@ export async function middleware(request: NextRequest) {
   // Protect admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
     if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/gizli-admin-login', request.url));
     }
 
     const role = user.user_metadata?.role;
     if (role !== 'admin') {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/gizli-admin-login', request.url));
     }
   }
 
   // Redirect logged-in admin from login page to dashboard
-  if (request.nextUrl.pathname === '/login' && user?.user_metadata?.role === 'admin') {
+  if (request.nextUrl.pathname === '/gizli-admin-login' && user?.user_metadata?.role === 'admin') {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
 
@@ -50,5 +50,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login'],
+  matcher: ['/admin/:path*', '/gizli-admin-login'],
 };
