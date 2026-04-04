@@ -37,7 +37,7 @@ export default function AdminSettings() {
   async function saveSettings() {
     setSaving(true);
     for (const [key, value] of Object.entries(settings)) {
-      const { data: existing } = await supabase.from('site_content').select('id').eq('key', key).eq('lang', 'settings').single();
+      const { data: existing } = await supabase.from('site_content').select('id').eq('key', key).eq('lang', 'settings').maybeSingle();
       if (existing) {
         await supabase.from('site_content').update({ value: String(value) }).eq('id', existing.id);
       } else {
